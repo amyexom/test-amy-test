@@ -1,13 +1,11 @@
 <template>
   <v-container class="login" style="padding: 10% 20%">
     <v-row class="text-center">
-      <v-col class="mb-4">
+      <v-col v-if="item_todolist" class="mb-5" cols="12"> uu </v-col>
+      <v-col v-else class="mb-4">
         Empty press 'Create'<br />
         for add new todo
       </v-col>
-
-      <v-col class="mb-5" cols="12"> uu </v-col>
-
       <v-col class="mb-5" cols="12">
         <v-dialog v-model="dialog" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
@@ -21,7 +19,7 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <pre>{{item_value}}</pre>
+                <pre>{{ item_value }}</pre>
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
@@ -67,6 +65,7 @@ export default {
     return {
       dialog: false,
       show1: false,
+      item_todolist: [],
       item_value: {},
       valid: true,
       name: "",
