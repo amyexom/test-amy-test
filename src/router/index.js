@@ -1,16 +1,16 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [{
         path: "/",
-        name: "Home",
-        component: Home,
+        redirect: "/login",
     },
     {
         path: "/login",
+
         name: "login",
         // route level code-splitting
         // this generates a separate chunk (login.[hash].js) for this route

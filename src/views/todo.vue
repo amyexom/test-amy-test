@@ -1,11 +1,19 @@
 <template>
   <v-container class="login" style="padding: 10% 20%">
     <v-row>
-      <v-col  class="mb-5" cols="12">
+      <v-col v-if="item_todolist.length >= 1" class="mb-5" cols="12">
         <!-- <pre>{{ item_todolist }}</pre> -->
-        <v-subheader>Todo</v-subheader>
+        <v-subheader class="text-h4">TODO</v-subheader>
         <v-list>
-          <v-list-item v-for="file in item_todolist" :key="file.title">
+          <v-list-item
+            style="
+              border: thin solid rgba(0, 0, 0, 0.12);
+              border-radius: 10px;
+              margin: 5px;
+            "
+            v-for="file in item_todolist"
+            :key="file.title"
+          >
             <v-list-item-avatar>
               <v-icon color="darken-2"> mdi-checkbox-marked-circle </v-icon>
             </v-list-item-avatar>
@@ -15,7 +23,7 @@
 
               <v-list-item-subtitle
                 v-text="file.description"
-              ></v-list-item-subtitle>
+              ></v-list-item-subtitle> <v-list-item-subtitle class="mt-1">{{moment(file.createdAt).format('YYYY-MM-DD HH:ss')}}</v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
@@ -51,7 +59,7 @@
           </v-list-item>
         </v-list>
       </v-col>
-      <v-col v-if="item_todolist==[]" class="mb-4 text-center">
+      <v-col v-else class="mb-4 text-center">
         Empty press 'Create'<br />
         for add new todo
       </v-col>
@@ -108,12 +116,12 @@
     <v-dialog v-model="dialogedit" width="500">
       <v-card>
         <v-card-title>
-          <span class="text-h5">Create todo</span>
+          <span class="text-h5">Edit todo</span>
         </v-card-title>
         <v-card-text>
           <v-container>
-            <pre>{{ item_edit }}</pre>
-            <v-form ref="form" v-model="valid" lazy-validation>
+            <!-- <pre>{{ validedit }}</pre> -->
+            <v-form ref="form" v-model="validedit" lazy-validation>
               <v-row>
                 <v-col cols="12">
                   <v-text-field
@@ -160,6 +168,7 @@ export default {
       item_value: {},
       item_edit: {},
       valid: true,
+      validedit: true,
       name: "",
       nameRules: [(v) => !!v || "Name is required"],
       email: "",
@@ -180,20 +189,24 @@ export default {
       this.dialogedit = true;
     },
     async calleditor() {
-      await this.$http
-        .put(this.$url + "todos/" + this.item_edit._id, this.item_edit, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("tokenlg"),
-          },
-        })
-        .then((result) => {
-          console.log(result.data);
-          this.dialogedit = false;
-          this.getItemToDo();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.item_edit.title && this.validedit) {
+        await this.$http
+          .put(this.$url + "todos/" + this.item_edit._id, this.item_edit, {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("tokenlg"),
+            },
+          })
+          .then((result) => {
+            console.log(result.data);
+            this.dialogedit = false;
+            this.getItemToDo();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        this.$refs.form.validate();
+      }
     },
     closedelete() {
       this.dialogconfirmdelete = true;

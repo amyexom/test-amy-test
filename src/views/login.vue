@@ -1,6 +1,5 @@
 <template>
-  <v-container class="login" style="padding: 10% 20%"
-    >{{ tokenlg }}
+  <v-container class="login" style="padding: 10% 20%">
     <v-row class="text-center">
       <v-col class="mb-4">
         <v-text-field
@@ -11,7 +10,6 @@
           required
         ></v-text-field>
       </v-col>
-
       <v-col class="mb-5" cols="12">
         <v-text-field
           v-model="item_value.password"
@@ -22,7 +20,6 @@
           required
         ></v-text-field>
       </v-col>
-
       <v-col class="mb-5" cols="12">
         <v-btn @click="calllog" color="cyan" block> LOGIN </v-btn>
       </v-col>
