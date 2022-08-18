@@ -1,5 +1,5 @@
 <template>
-  <v-container class="login" style="padding: 10% 20%">
+  <v-container class="login" style="padding: 5% 20%">
     <v-row>
       <v-col v-if="item_todolist.length >= 1" class="mb-5" cols="12">
         <!-- <pre>{{ item_todolist }}</pre> -->
